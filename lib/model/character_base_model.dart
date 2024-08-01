@@ -11,7 +11,6 @@ class CharacterBaseModel {
 
   final int character_level, character_exp;
 
-
   CharacterBaseModel.fromjson(Map<String, dynamic> json)
       : date = json['date'],
         character_name = json['character_name'],

@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:maple_info_app/model/character_base_by_ocid_model.dart';
+import 'package:maple_info_app/model/character_stat_model.dart';
 import 'package:maple_info_app/model/ocid_model.dart';
 
 import '../model/character_base_model.dart';
+import '../model/character_stat_detail_model.dart';
 
 class Apiservice {
 
@@ -25,11 +28,19 @@ class Apiservice {
   static const String characterBaseParams1 = "ocid";
   static const String characterBaseParams2 = "date";
 
+  // 캐릭터 스텟 조회 API 및 Params
+  static const String characterStatEndPoint = "maplestory/v1/character/stat";
+  static const String characterStatParams1 = "ocid";
+  static const String characterStatParams2 = "date";
+
   // 개별 Input 데이터
-  static const List<String> characterNameList = ['억음스커', '예티쿠션'];
+  static const List<String> characterNameList = ['예티쿠션'];
 
   // ocid cache list
-  static const List<String> ocidListbyApi = [];
+  static List<String> ocidList = [];
+
+  // 조회 날짜 DATE
+  static const String date = "2024-07-31";
 
 
   static Future<OcidModel> getOcidData(String name) async {
@@ -44,20 +55,16 @@ class Apiservice {
 
     if (response.statusCode == 200) {
       print('성공 -> ${response.body}');
-      return OcidModel.fromjson(jsonDecode(response.body));
+      OcidModel ocidModel = OcidModel.fromjson(jsonDecode(response.body));
+      ocidList.add(ocidModel.ocid);
+      return ocidModel;
     }
 
     throw Error();
   }
 
-  static Future<CharacterBaseModel> getCharacterBaseData(String name) async {
+  static Future<CharacterBaseModel> getCharacterBaseData(String ocid) async {
     try {
-      OcidModel ocidData = await getOcidData(name);
-      String ocid = ocidData.ocid;
-      String date = "2024-07-31";
-
-      //ocidListbyApi.add(ocid);
-
       final response = await http.get(
         Uri.parse('$baseUrl/$characterBaseEndPoint?'
             '$characterBaseParams1=$ocid&'
@@ -81,15 +88,40 @@ class Apiservice {
   }
 
 
-  static Future<List<CharacterBaseModel>> getCharacterBaseList() async {
-    List<CharacterBaseModel> modelList = [];
+  static Future<List<CharacterBaseByOcidModel>> getCharacterBaseList() async {
+    List<CharacterBaseByOcidModel> characterInfoList = [];
 
     for (var name in characterNameList) {
-      CharacterBaseModel characterBaseModel = await getCharacterBaseData(name);
-      print('데이터 -> $characterBaseModel');
-      modelList.add(characterBaseModel);
+      OcidModel ocidModel = await getOcidData(name);
+      CharacterBaseModel characterBaseModel = await getCharacterBaseData(ocidModel.ocid);
+      characterInfoList.add(
+        CharacterBaseByOcidModel(
+          ocid: ocidModel.ocid,
+          characterBase: characterBaseModel
+        )
+      );
     }
 
-    return modelList;
+    return characterInfoList;
+  }
+
+  static Future<List<CharacterStatDetailModel>> getCharacterStatData(String ocid) async {
+    final reponse = await http.get(
+      Uri.parse('$baseUrl/$characterStatEndPoint?'
+          '$characterStatParams1=$ocid&'
+          '$characterStatParams2=$date'),
+      headers: <String, String> {
+        apiHeader : apiKey
+      },
+    );
+
+    if (reponse.statusCode == 200) {
+      CharacterStatModel characterStatModel =
+        CharacterStatModel.fromjson(jsonDecode(reponse.body));
+
+      return characterStatModel.final_stat;
+    }
+
+    throw Error();
   }
 }

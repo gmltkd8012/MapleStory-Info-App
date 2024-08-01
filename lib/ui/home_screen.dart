@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maple_info_app/model/character_base_by_ocid_model.dart';
 import 'package:maple_info_app/model/character_base_model.dart';
 import 'package:maple_info_app/model/ocid_model.dart';
 import 'package:maple_info_app/service/api_service.dart';
@@ -11,7 +12,8 @@ import '../widget/character_card_widget.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  final Future<List<CharacterBaseModel>> charcterBase = Apiservice.getCharacterBaseList();
+  final Future<List<CharacterBaseByOcidModel>> charcterBase
+      = Apiservice.getCharacterBaseList();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,12 @@ class HomeScreen extends StatelessWidget {
                   height: 50,
                 ),
                 Expanded(
-                  child: makeList(snapshot),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                    ),
+                    child: makeList(snapshot),
+                  ),
                 ),
               ],
             );
@@ -49,13 +56,15 @@ class HomeScreen extends StatelessWidget {
   }
 
   // 캐릭터 정보 아이템 리스트
-  ListView makeList(AsyncSnapshot<List<CharacterBaseModel>> snapshot) {
+  ListView makeList(AsyncSnapshot<List<CharacterBaseByOcidModel>> snapshot) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: snapshot.data!.length,
       itemBuilder: (context, index) {
-        var characterBase = snapshot.data![index];
-        return CharacterCardWidget(characterBase: characterBase);
+        var characterBaseByOcid = snapshot.data![index];
+        return CharacterCardWidget(
+          characterBaseByOcid: characterBaseByOcid
+        );
       },
       separatorBuilder: (context, index) => const SizedBox(
         width: 40,
