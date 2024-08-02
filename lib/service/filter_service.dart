@@ -1,4 +1,3 @@
-import 'package:maple_info_app/model/character_base_by_ocid_model.dart';
 import 'package:maple_info_app/service/api_service.dart';
 
 class FilterService {

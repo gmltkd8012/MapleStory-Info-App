@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maple_info_app/model/character_base_by_ocid_model.dart';
 import 'package:maple_info_app/model/character_base_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
 
