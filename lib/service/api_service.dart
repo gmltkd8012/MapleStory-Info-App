@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:maple_info_app/model/character_base_by_ocid_model.dart';
 import 'package:maple_info_app/model/character_stat_model.dart';
+import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/model/ocid_model.dart';
 
 import '../model/character_base_model.dart';
@@ -43,6 +44,7 @@ class Apiservice {
   static const String date = "2024-08-01";
 
 
+  // 캐릭터 식별자 조회 API
   static Future<OcidModel> getOcidData(String name) async {
 
     final response = await http.get(
@@ -63,6 +65,7 @@ class Apiservice {
     throw Error();
   }
 
+  // 기본 정보 조회 API
   static Future<CharacterBaseModel> getCharacterBaseData(String ocid) async {
     try {
       final response = await http.get(
@@ -87,24 +90,7 @@ class Apiservice {
     throw Error();
   }
 
-
-  static Future<List<CharacterBaseByOcidModel>> getCharacterBaseList() async {
-    List<CharacterBaseByOcidModel> characterInfoList = [];
-
-    for (var name in characterNameList) {
-      OcidModel ocidModel = await getOcidData(name);
-      CharacterBaseModel characterBaseModel = await getCharacterBaseData(ocidModel.ocid);
-      characterInfoList.add(
-        CharacterBaseByOcidModel(
-          ocid: ocidModel.ocid,
-          characterBase: characterBaseModel
-        )
-      );
-    }
-
-    return characterInfoList;
-  }
-
+  // 종합 능력치 정보 조회 API
   static Future<List<CharacterStatDetailModel>> getCharacterStatData(String ocid) async {
     final reponse = await http.get(
       Uri.parse('$baseUrl/$characterStatEndPoint?'
@@ -117,11 +103,38 @@ class Apiservice {
 
     if (reponse.statusCode == 200) {
       CharacterStatModel characterStatModel =
-        CharacterStatModel.fromjson(jsonDecode(reponse.body));
+      CharacterStatModel.fromjson(jsonDecode(reponse.body));
 
       return characterStatModel.final_stat;
     }
 
     throw Error();
+  }
+
+
+  // ===========================================================================
+  // ===========================================================================
+  // ===========================================================================
+
+
+  // 식별자, 기본 정보, 종합 능력치 합친 데이터 모델
+  static Future<List<CharacterTotalModel>> getCharacterTotalList() async {
+    List<CharacterTotalModel> characterInfoList = [];
+
+    for (var name in characterNameList) {
+      OcidModel ocidModel = await getOcidData(name);
+      CharacterBaseModel characterBaseModel = await getCharacterBaseData(ocidModel.ocid);
+      List<CharacterStatDetailModel> characterStatModel = await getCharacterStatData(ocidModel.ocid);
+
+      characterInfoList.add(
+          CharacterTotalModel(
+            ocid: ocidModel.ocid,
+            characterBase: characterBaseModel,
+            characterStat: characterStatModel,
+          )
+      );
+    }
+
+    return characterInfoList;
   }
 }

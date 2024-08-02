@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maple_info_app/model/character_base_by_ocid_model.dart';
 import 'package:maple_info_app/model/character_base_model.dart';
+import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/model/ocid_model.dart';
 import 'package:maple_info_app/service/api_service.dart';
 
@@ -12,8 +13,10 @@ import '../widget/character_card_widget.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  final Future<List<CharacterBaseByOcidModel>> charcterBase
-      = Apiservice.getCharacterBaseList();
+  final Future<List<CharacterTotalModel>> totalData
+      = Apiservice.getCharacterTotalList();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-        future: charcterBase,
+        future: totalData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
@@ -49,21 +52,29 @@ class HomeScreen extends StatelessWidget {
               ],
             );
           }
-          return Text("...");
+          return Center(
+            child: Text('로딩중...',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+          );
         },
       ),
     );
   }
 
   // 캐릭터 정보 아이템 리스트
-  ListView makeList(AsyncSnapshot<List<CharacterBaseByOcidModel>> snapshot) {
+  ListView makeList(AsyncSnapshot<List<CharacterTotalModel>> snapshot) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: snapshot.data!.length,
       itemBuilder: (context, index) {
-        var characterBaseByOcid = snapshot.data![index];
+        var characterData = snapshot.data![index];
         return CharacterCardWidget(
-          characterBaseByOcid: characterBaseByOcid
+          characterData: characterData
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
