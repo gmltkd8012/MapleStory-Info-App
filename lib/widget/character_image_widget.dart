@@ -5,10 +5,12 @@ import 'package:maple_info_app/model/character_total_model.dart';
 
 class CharacterImageWidget extends StatelessWidget {
   final CharacterTotalModel characterData;
+  final int? index;
 
   const CharacterImageWidget({
     super.key,
     required this.characterData,
+    required this.index,
   });
 
   @override
@@ -29,23 +31,7 @@ class CharacterImageWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.amber,
-                  ),
-                  width: 50,
-                  height: 50,
-                  child: Center(
-                    child: Text('1',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                makeRankContainer(),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 45
@@ -63,5 +49,54 @@ class CharacterImageWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Container makeRankContainer() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: rankMedalBgColor(),
+      ),
+      width: 50,
+      height: 50,
+      child: Center(
+        child: Text('${index! + 1}',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: rankMedalTextColor(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Color rankMedalBgColor() {
+    switch (index) {
+      case 0: { // Gold
+        return Colors.amber;
+      }
+      case 1: { // Sliver
+        return Color(0xFFC0C0C0);
+      }
+      case 2: { // Bronze
+        return Color(0xFFCD7F32);
+      }
+      default: {
+        return Color(0xFF3D454C);
+      }
+    }
+  }
+
+  Color rankMedalTextColor() {
+    switch (index) {
+      case 1:
+      { // Sliver
+        return Colors.black;
+      }
+      default: {
+        return Colors.white;
+      }
+    }
   }
 }

@@ -12,10 +12,12 @@ import '../widget/website_move_widget.dart';
 
 class DetailScreen extends StatefulWidget {
   final CharacterTotalModel characterData;
+  final int index;
 
   const DetailScreen({
     super.key,
     required this.characterData,
+    required this.index,
   });
 
   @override
@@ -55,6 +57,7 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             CharacterImageWidget(
               characterData: widget.characterData,
+              index: widget.index,
             ),
             SizedBox(
               height: 20,

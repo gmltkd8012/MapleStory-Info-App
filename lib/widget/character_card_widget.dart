@@ -11,9 +11,11 @@ class CharacterCardWidget extends StatelessWidget {
   const CharacterCardWidget({
     super.key,
     required this.characterData,
+    required this.index,
   });
 
   final CharacterTotalModel characterData;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class CharacterCardWidget extends StatelessWidget {
             builder: (context) =>
               DetailScreen(
                 characterData: characterData,
+                index: index,
               ),
             fullscreenDialog: false,
           ),
@@ -33,7 +36,8 @@ class CharacterCardWidget extends StatelessWidget {
       child: Column(
         children: [
           CharacterImageWidget(
-              characterData: characterData,
+            characterData: characterData,
+            index: index,
           ),
           SizedBox(
             height: 20,
