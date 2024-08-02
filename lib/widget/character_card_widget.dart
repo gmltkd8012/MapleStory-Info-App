@@ -4,7 +4,6 @@ import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/ui/detail_screen.dart';
 import 'package:maple_info_app/widget/character_image_widget.dart';
 
-import '../model/character_base_model.dart';
 
 
 class CharacterCardWidget extends StatelessWidget {
