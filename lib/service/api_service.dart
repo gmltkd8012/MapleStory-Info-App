@@ -34,13 +34,13 @@ class Apiservice {
   static const String characterStatParams2 = "date";
 
   // 개별 Input 데이터
-  static const List<String> characterNameList = ['예티쿠션'];
+  static const List<String> characterNameList = ['셔칸', '예티쿠션', '맥겐', '내주량4병'];
 
   // ocid cache list
   static List<String> ocidList = [];
 
   // 조회 날짜 DATE
-  static const String date = "2024-07-31";
+  static const String date = "2024-08-01";
 
 
   static Future<OcidModel> getOcidData(String name) async {

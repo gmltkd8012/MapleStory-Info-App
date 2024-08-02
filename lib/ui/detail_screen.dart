@@ -8,6 +8,7 @@ import 'package:maple_info_app/widget/character_image_widget.dart';
 import '../model/character_stat_detail_model.dart';
 import '../widget/stat_detail_widget.dart';
 import '../widget/stat_widget.dart';
+import '../widget/website_move_widget.dart';
 
 class DetailScreen extends StatefulWidget {
   final CharacterBaseByOcidModel characterBaseByOcid;
@@ -60,7 +61,17 @@ class _DetailScreenState extends State<DetailScreen> {
             SizedBox(
               height: 20,
             ),
-            StatWidget(widget: widget, f: f, statList: statList),
+            StatWidget(
+              widget: widget,
+              f: f,
+              statList: statList
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            WebsiteMoveWidget(
+              character_name: widget.characterBaseByOcid.characterBase.character_name,
+            )
           ],
         ),
       ),
