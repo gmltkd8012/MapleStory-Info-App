@@ -39,7 +39,7 @@ class _FilterDialogState extends State<FilterDialog> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop('Combat');
+                Navigator.of(context).pop('전투력');
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -64,7 +64,7 @@ class _FilterDialogState extends State<FilterDialog> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop('Level');
+                Navigator.of(context).pop('레벨');
               },
               child: Container(
                 decoration: BoxDecoration(

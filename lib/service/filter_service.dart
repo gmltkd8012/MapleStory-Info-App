@@ -14,7 +14,7 @@ class FilterService {
     }
 
     switch (tag) {
-      case 'Combat': {
+      case '전투력': {
         sortedList.sort((b, a) =>
             int.parse(a.characterStat[42].stat_value).compareTo(
                 int.parse(b.characterStat[42].stat_value)
@@ -22,7 +22,7 @@ class FilterService {
         );
         break;
       }
-      case 'Level': {
+      case '레벨': {
         sortedList.sort((b, a) =>
             a.characterBase.character_level.compareTo(
                 b.characterBase.character_level

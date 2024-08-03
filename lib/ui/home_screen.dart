@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:maple_info_app/model/character_base_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/model/ocid_model.dart';
 import 'package:maple_info_app/service/api_service.dart';
 import 'package:maple_info_app/service/filter_service.dart';
+import 'package:maple_info_app/widget/rank_medal_widget.dart';
 
 import '../dialog/filter_dialog.dart';
 import '../widget/character_card_widget.dart';
@@ -78,20 +80,120 @@ class _HomeScreenState extends State<HomeScreen> {
         future: totalData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black.withOpacity(0.2),
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.grey,
+                      )
                     ),
+                    width: 120,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        (filter != null) ? filter! : '전투력',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Expanded(
+                    flex: 4,
                     child: makeList(snapshot),
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.black.withOpacity(0.2),
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0.2),
+                            Colors.grey,
+                          ]
+                        ),
+                        border: Border.all(
+                          width: 2,
+                          color: Colors.grey,
+                        )
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  child: Text('캐릭터명',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 35,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  child: Text('|',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 35,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  child: Text(filter!,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            )
+                          ),
+                          Expanded(
+                            flex: 8,
+                            child: makeRankList(snapshot)
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           }
           return Center(
@@ -122,6 +224,94 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       separatorBuilder: (context, index) => const SizedBox(
         width: 40,
+      ),
+    );
+  }
+
+  // 캐릭터 랭킹 리스트
+  ListView makeRankList(AsyncSnapshot<List<CharacterTotalModel>> snapshot) {
+
+    String formatNumber(int number) {
+      if (number == 0) return '0';
+
+      const List<String> units = ['', '만', '억'];
+      int unitIndex = 0;
+      String result = '';
+
+      while (number > 0) {
+        int part = number % 10000;
+        if (part > 0) {
+          result = '$part${units[unitIndex]} $result';
+        }
+        number ~/= 10000;
+        unitIndex++;
+      }
+
+      return result.trim();
+    }
+
+    return ListView.separated(
+      scrollDirection: Axis.vertical,
+      itemCount: snapshot.data!.length,
+      itemBuilder: (context, index) {
+        var characterData = snapshot.data![index];
+        return Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            top: 20,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 25,
+                height: 25,
+                child: RankMedalWidget(
+                  index: index,
+                  textSize: 14,
+                  textWeight: FontWeight.w600,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                ),
+                child: SizedBox(
+                  width: 80,
+                  height: 25,
+                  child: Text(characterData.characterBase.character_name,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 30,
+                ),
+                child: SizedBox(
+                  height: 25,
+                  child: Text(
+                    (filter != null && filter == '전투력')
+                        ? formatNumber(int.parse(characterData.characterStat[42].stat_value))
+                        : 'Lv. ${characterData.characterBase.character_level}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(
+        height: 20,
       ),
     );
   }

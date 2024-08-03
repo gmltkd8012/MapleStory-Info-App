@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maple_info_app/model/character_base_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
+import 'package:maple_info_app/widget/rank_medal_widget.dart';
 
 class CharacterImageWidget extends StatelessWidget {
   final CharacterTotalModel characterData;
@@ -21,7 +22,19 @@ class CharacterImageWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Colors.grey.withOpacity(0.8),
+            border: Border.all(
+              width: 2,
+              color: Colors.grey,
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.grey.withOpacity(0.8),
+                Colors.grey.withOpacity(0.5),
+                Colors.grey.withOpacity(0.2),
+              ]
+            )
           ),
           width: 200,
           height: 200,
@@ -31,7 +44,11 @@ class CharacterImageWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                makeRankContainer(),
+                RankMedalWidget(
+                  index: index,
+                  textSize: 24,
+                  textWeight: FontWeight.w700,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 45
@@ -49,54 +66,5 @@ class CharacterImageWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Container makeRankContainer() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        color: rankMedalBgColor(),
-      ),
-      width: 50,
-      height: 50,
-      child: Center(
-        child: Text('${index! + 1}',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: rankMedalTextColor(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Color rankMedalBgColor() {
-    switch (index) {
-      case 0: { // Gold
-        return Colors.amber;
-      }
-      case 1: { // Sliver
-        return Color(0xFFC0C0C0);
-      }
-      case 2: { // Bronze
-        return Color(0xFFCD7F32);
-      }
-      default: {
-        return Color(0xFF3D454C);
-      }
-    }
-  }
-
-  Color rankMedalTextColor() {
-    switch (index) {
-      case 1:
-      { // Sliver
-        return Colors.black;
-      }
-      default: {
-        return Colors.white;
-      }
-    }
   }
 }

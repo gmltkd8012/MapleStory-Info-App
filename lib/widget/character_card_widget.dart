@@ -33,6 +33,7 @@ class CharacterCardWidget extends StatelessWidget {
         );
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           CharacterImageWidget(
             characterData: characterData,
