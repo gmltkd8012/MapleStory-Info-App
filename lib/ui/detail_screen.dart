@@ -51,7 +51,7 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 50,
+          vertical: 20,
         ),
         child: Column(
           children: [

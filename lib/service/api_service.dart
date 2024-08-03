@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:maple_info_app/model/character_stat_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/model/ocid_model.dart';
@@ -34,13 +35,17 @@ class Apiservice {
   static const String characterStatParams2 = "date";
 
   // 개별 Input 데이터
-  static const List<String> characterNameList = ['셔칸', '예티쿠션', '맥겐', '내주량4병'];
+  static const List<String> characterNameList = ['셔칸', '맥겐', 'hongPD', '펠슈판', '내주량4병', '예티쿠션'];
 
   // ocid cache list
   static List<String> ocidList = [];
 
   // 조회 날짜 DATE
-  static const String date = "2024-08-01";
+  static String date = DateFormat('yyyy-MM-dd').format(
+      (DateTime.now()).subtract(
+          Duration(days: 1)
+      )
+  );
 
 
   // 캐릭터 식별자 조회 API
@@ -67,6 +72,7 @@ class Apiservice {
   // 기본 정보 조회 API
   static Future<CharacterBaseModel> getCharacterBaseData(String ocid) async {
     try {
+      print(date);
       final response = await http.get(
         Uri.parse('$baseUrl/$characterBaseEndPoint?'
             '$characterBaseParams1=$ocid&'

@@ -21,7 +21,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<CharacterTotalModel>> totalData;
+  late Future<List<CharacterTotalModel>> totalData = Apiservice.getCharacterTotalList();
+  late Future<List<CharacterTotalModel>> sortedData;
   String? filter;
 
 
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void fetchData() {
     setState(() {
-      totalData = FilterService.getFilterData(filter);
+      sortedData = FilterService.getFilterData(filter, totalData);
     });
   }
 
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: FutureBuilder(
-        future: totalData,
+        future: sortedData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Padding(
@@ -86,27 +87,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black.withOpacity(0.2),
-                      border: Border.all(
-                        width: 2,
-                        color: Colors.grey,
-                      )
-                    ),
-                    width: 120,
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        (filter != null) ? filter! : '전투력',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.black.withOpacity(0.2),
+                          border: Border.all(
+                            width: 2,
+                            color: Colors.grey,
+                          )
+                        ),
+                        width: 120,
+                        height: 50,
+                        child: Center(
+                          child: Text(
+                            (filter != null) ? filter! : '전투력',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Text(Apiservice.date,
+                        style: TextStyle(
+                          color: Colors.white
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 30,
@@ -172,7 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 SizedBox(
                                   height: 30,
-                                  child: Text(filter!,
+                                  child: Text(
+                                    (filter != null) ? filter! : '전투력',
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
@@ -231,25 +243,6 @@ class _HomeScreenState extends State<HomeScreen> {
   // 캐릭터 랭킹 리스트
   ListView makeRankList(AsyncSnapshot<List<CharacterTotalModel>> snapshot) {
 
-    String formatNumber(int number) {
-      if (number == 0) return '0';
-
-      const List<String> units = ['', '만', '억'];
-      int unitIndex = 0;
-      String result = '';
-
-      while (number > 0) {
-        int part = number % 10000;
-        if (part > 0) {
-          result = '$part${units[unitIndex]} $result';
-        }
-        number ~/= 10000;
-        unitIndex++;
-      }
-
-      return result.trim();
-    }
-
     return ListView.separated(
       scrollDirection: Axis.vertical,
       itemCount: snapshot.data!.length,
@@ -258,62 +251,101 @@ class _HomeScreenState extends State<HomeScreen> {
         return Padding(
           padding: const EdgeInsets.only(
             left: 20,
-            top: 20,
+            right: 20,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
             children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: RankMedalWidget(
+                      index: index,
+                      textSize: 14,
+                      textWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: SizedBox(
+                      width: 80,
+                      height: 25,
+                      child: Text(characterData.characterBase.character_name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 30,
+                    ),
+                    child: SizedBox(
+                      height: 25,
+                      child: Text(filterData(characterData),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               SizedBox(
-                width: 25,
-                height: 25,
-                child: RankMedalWidget(
-                  index: index,
-                  textSize: 14,
-                  textWeight: FontWeight.w600,
-                ),
+                height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                ),
-                child: SizedBox(
-                  width: 80,
-                  height: 25,
-                  child: Text(characterData.characterBase.character_name,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+              Divider(
+                color: Colors.grey,
+                thickness: 0.5,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 30,
-                ),
-                child: SizedBox(
-                  height: 25,
-                  child: Text(
-                    (filter != null && filter == '전투력')
-                        ? formatNumber(int.parse(characterData.characterStat[42].stat_value))
-                        : 'Lv. ${characterData.characterBase.character_level}',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
-        height: 20,
+        height: 10,
       ),
     );
+  }
+
+  String formatNumber(int number) {
+    if (number == 0) return '0';
+
+    const List<String> units = ['', '만', '억'];
+    int unitIndex = 0;
+    String result = '';
+
+    while (number > 0) {
+      int part = number % 10000;
+      if (part > 0) {
+        result = '$part${units[unitIndex]} $result';
+      }
+      number ~/= 10000;
+      unitIndex++;
+    }
+    return result.trim();
+  }
+
+  String filterData(CharacterTotalModel data) {
+    switch(filter) {
+      case '전투력':
+        return formatNumber(int.parse(data.characterStat[42].stat_value));
+      case '레벨':
+        return 'Lv. ${data.characterBase.character_level}';
+      case '좆사기직업':
+        return data.characterBase.character_class;
+      default:
+        return formatNumber(int.parse(data.characterStat[42].stat_value));
+    }
   }
 }
 
