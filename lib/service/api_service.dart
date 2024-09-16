@@ -24,7 +24,7 @@ class Apiservice {
 
 
   // 개별 Input 데이터
-  static const List<String> characterNameList = ['예티쿠션', '내주량4병'];
+  static const List<String> characterNameList = ['예티쿠션', '내주량4병', '셔칸', '맥겐', '펠슈판', 'hongPD'];
 
 
   // 조회 날짜 DATE

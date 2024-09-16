@@ -162,6 +162,43 @@ class _FilterDialogState extends State<FilterDialog> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop('캐릭터 생성일');
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.black.withOpacity(0.2),
+                    border: Border.all(
+                        width: 1,
+                        color: Colors.white
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Colors.grey,
+                        Colors.black.withOpacity(0.5),
+                      ],
+                    )
+                ),
+                width: 200,
+                height: 50,
+                child: Center(
+                  child: Text('캐릭터 생성일',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

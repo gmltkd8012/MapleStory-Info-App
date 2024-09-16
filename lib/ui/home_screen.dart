@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/service/api_service.dart';
 import 'package:maple_info_app/service/filter_service.dart';
@@ -339,6 +340,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return 'Lv. ${data.characterBase.character_level}';
       case '좆사기직업':
         return data.characterBase.character_class;
+      case '캐릭터 생성일':
+        return DateFormat('yyyy-MM-dd').format(DateTime.parse(data.characterBase.character_date_create));
       default:
         return formatNumber(int.parse(data.characterStat.final_stat[42].stat_value));
     }

@@ -28,6 +28,18 @@ class FilterService {
         );
         break;
       }
+      case '캐릭터 생성일': {
+        sortedList.sort((b, a) {
+          DateTime dateA = DateTime.parse(
+              a.characterBase.character_date_create);
+
+          DateTime dateB = DateTime.parse(
+              b.characterBase.character_date_create);
+
+          return dateB.compareTo(dateA);
+        });
+        break;
+      }
       case '좆사기직업': {
         break;
       }
