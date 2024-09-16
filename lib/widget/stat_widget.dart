@@ -4,9 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/widget/stat_detail_widget.dart';
 
-import '../model/character_stat_detail_model.dart';
-import '../ui/detail_screen.dart';
-
 class StatWidget extends StatelessWidget {
   const StatWidget({
     super.key,

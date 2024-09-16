@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:maple_info_app/model/character_base_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
-import 'package:maple_info_app/model/ocid_model.dart';
 import 'package:maple_info_app/service/api_service.dart';
 import 'package:maple_info_app/service/filter_service.dart';
 import 'package:maple_info_app/widget/rank_medal_widget.dart';
@@ -338,13 +334,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String filterData(CharacterTotalModel data) {
     switch(filter) {
       case '전투력':
-        return formatNumber(int.parse(data.characterStat[42].stat_value));
+        return formatNumber(int.parse(data.characterStat.final_stat[42].stat_value));
       case '레벨':
         return 'Lv. ${data.characterBase.character_level}';
       case '좆사기직업':
         return data.characterBase.character_class;
       default:
-        return formatNumber(int.parse(data.characterStat[42].stat_value));
+        return formatNumber(int.parse(data.characterStat.final_stat[42].stat_value));
     }
   }
 }

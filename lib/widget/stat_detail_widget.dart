@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:maple_info_app/domain/model/stat/final_stat_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
-
-import '../model/character_stat_detail_model.dart';
 
 class StatDetailWidget extends StatelessWidget {
   const StatDetailWidget({
@@ -13,7 +12,7 @@ class StatDetailWidget extends StatelessWidget {
 
   final CharacterTotalModel characterData;
 
-  String convertNumber(CharacterStatDetailModel data) {
+  String convertNumber(FinalStatModel data) {
     var f = NumberFormat('###,###,###,###');
 
     if ((data.stat_name.contains('스탯공격력') || data.stat_name.contains('전투력')) == true ) {
@@ -35,9 +34,9 @@ class StatDetailWidget extends StatelessWidget {
       height: 170,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: characterData.characterStat.length,
+        itemCount: characterData.characterStat.final_stat.length,
         itemBuilder: (context, index) {
-          var stat = characterData.characterStat[index];
+          var stat = characterData.characterStat.final_stat[index];
           return Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 20,

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:maple_info_app/model/character_base_model.dart';
 import 'package:maple_info_app/model/character_total_model.dart';
-import 'package:maple_info_app/service/api_service.dart';
 import 'package:maple_info_app/widget/character_image_widget.dart';
-
-import '../model/character_stat_detail_model.dart';
-import '../widget/stat_detail_widget.dart';
 import '../widget/stat_widget.dart';
 import '../widget/website_move_widget.dart';
 

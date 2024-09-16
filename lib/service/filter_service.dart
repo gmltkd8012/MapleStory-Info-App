@@ -14,8 +14,8 @@ class FilterService {
     switch (tag) {
       case '전투력': {
         sortedList.sort((b, a) =>
-            int.parse(a.characterStat[42].stat_value).compareTo(
-                int.parse(b.characterStat[42].stat_value)
+            int.parse(a.characterStat.final_stat[42].stat_value).compareTo(
+                int.parse(b.characterStat.final_stat[42].stat_value)
             )
         );
         break;
@@ -33,8 +33,8 @@ class FilterService {
       }
       default: {
         sortedList.sort((b, a) =>
-            int.parse(a.characterStat[42].stat_value).compareTo(
-                int.parse(b.characterStat[42].stat_value)
+            int.parse(a.characterStat.final_stat[42].stat_value).compareTo(
+                int.parse(b.characterStat.final_stat[42].stat_value)
             )
         );
         break;
