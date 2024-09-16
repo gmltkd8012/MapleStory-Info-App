@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:maple_info_app/data/data_source/remote/basic/basic.api.dart';
 import 'package:maple_info_app/data/data_source/remote/ocid/ocid.api.dart';
@@ -22,7 +23,7 @@ void _data() {
   final client = RestClient();
   final dio = client.getDio;
 
-  dio.options.headers['x-nxopen-api-key'] = '';
+  dio.options.headers['x-nxopen-api-key'] = dotenv.get('MAPLE_API_KEY');
   dio.options.baseUrl = 'https://open.api.nexon.com';
   locator.registerSingleton<OcidApi>(OcidApi(dio));
   locator.registerSingleton<BasicApi>(BasicApi(dio));
