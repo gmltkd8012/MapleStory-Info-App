@@ -7,7 +7,7 @@ class RestClient{
   static final RestClient _instance = RestClient._internal();
 
   RestClient._internal() {
-    _dio.interceptors.add(LogInterceptor(request: false, requestHeader: false, responseHeader: true, responseBody: true, requestBody: false));
+    _dio.interceptors.add(LogInterceptor(request: false, requestHeader: false, responseHeader: true, responseBody: false, requestBody: false));
   }
 
   factory RestClient() => _instance;

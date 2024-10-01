@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/widget/rank_medal_widget.dart';
+
+import '../domain/model/total/character_total_model.dart';
 
 class CharacterImageWidget extends StatelessWidget {
   final CharacterTotalModel characterData;
@@ -55,7 +56,7 @@ class CharacterImageWidget extends StatelessWidget {
                   child: Transform.scale(
                     scale: 1.5,
                     child: Image.network(
-                      characterData.characterBase.character_image,
+                      characterData.characterBasic.character_image,
                     ),
                   ),
                 ),

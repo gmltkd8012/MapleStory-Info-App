@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maple_info_app/domain/model/stat/final_stat_model.dart';
-import 'package:maple_info_app/model/character_total_model.dart';
+
+import '../domain/model/total/character_total_model.dart';
 
 class StatDetailWidget extends StatelessWidget {
   const StatDetailWidget({

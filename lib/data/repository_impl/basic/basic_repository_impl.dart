@@ -22,7 +22,7 @@ class BasicRepositoryImpl extends BasicRepository {
       print('@@@@@@@@@@@@@@@@@2');  // 여기까지 실행되는지 확인
       return response.toModel();
     } catch (e) {
-      print('Error occurred: $e');
+      print('에러 발생 ;;;; Error occurred: $e');
     }
 
     final response = await _basicApi.getCharacterBasic(ocid, date);

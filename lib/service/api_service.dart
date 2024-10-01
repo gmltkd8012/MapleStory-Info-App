@@ -13,18 +13,19 @@ import 'package:maple_info_app/domain/usecase/ocid/get_ocid_usecase.dart';
 import 'package:maple_info_app/domain/usecase/ocid/ocid_usecase.dart';
 import 'package:maple_info_app/domain/usecase/stat/get_stat_usecase.dart';
 import 'package:maple_info_app/domain/usecase/stat/stat_usecase.dart';
-import 'package:maple_info_app/model/character_total_model.dart';
+
 
 import '../core/locator/service_locator.dart';
 import '../domain/model/basic/basic_model.dart';
 import '../domain/model/ocid/ocid_model.dart';
+import '../domain/model/total/character_total_model.dart';
 
 class Apiservice {
 
 
 
   // 개별 Input 데이터
-  static const List<String> characterNameList = ['예티쿠션', '내주량4병', '셔칸', '맥겐', '펠슈판', 'hongPD'];
+  static const List<String> characterNameList = ['셔칸'];
 
 
   // 조회 날짜 DATE
@@ -51,7 +52,7 @@ class Apiservice {
       characterInfoList.add(
           CharacterTotalModel(
             ocid: ocidModel.ocid,
-            characterBase: characterBasicModel,
+            characterBasic: characterBasicModel,
             characterStat: characterStatModel,
           )
       );

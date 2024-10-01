@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/widget/stat_detail_widget.dart';
+
+import '../domain/model/total/character_total_model.dart';
 
 class StatWidget extends StatelessWidget {
   const StatWidget({
@@ -30,7 +31,7 @@ class StatWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '서버 : ${characterData.characterBase.world_name}',
+              '서버 : ${characterData.characterBasic.world_name}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -41,7 +42,7 @@ class StatWidget extends StatelessWidget {
               height: 5,
             ),
             Text(
-              'Lv: ${characterData.characterBase.character_level}',
+              'Lv: ${characterData.characterBasic.character_level}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -52,7 +53,7 @@ class StatWidget extends StatelessWidget {
               height: 5,
             ),
             Text(
-              'Exp : ${f.format(characterData.characterBase.character_exp)} (${characterData.characterBase.character_exp_rate}%)',
+              'Exp : ${f.format(characterData.characterBasic.character_exp)} (${characterData.characterBasic.character_exp_rate}%)',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -63,7 +64,7 @@ class StatWidget extends StatelessWidget {
               height: 5,
             ),
             Text(
-              '직업 : ${characterData.characterBase.character_class}',
+              '직업 : ${characterData.characterBasic.character_class}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -74,7 +75,7 @@ class StatWidget extends StatelessWidget {
               height: 5,
             ),
             Text(
-              '길드 : ${characterData.characterBase.character_guild_name}',
+              '길드 : ${characterData.characterBasic.character_guild_name}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,

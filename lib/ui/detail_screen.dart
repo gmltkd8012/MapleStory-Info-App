@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:maple_info_app/model/character_total_model.dart';
 import 'package:maple_info_app/widget/character_image_widget.dart';
+import '../domain/model/total/character_total_model.dart';
 import '../widget/stat_widget.dart';
 import '../widget/website_move_widget.dart';
 
@@ -37,7 +37,7 @@ class _DetailScreenState extends State<DetailScreen> {
         backgroundColor: Colors.black.withOpacity(0.2),
         foregroundColor: Colors.white.withOpacity(0.8),
         title: Text(
-          widget.characterData.characterBase.character_name,
+          widget.characterData.characterBasic.character_name,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -64,7 +64,7 @@ class _DetailScreenState extends State<DetailScreen> {
               height: 20,
             ),
             WebsiteMoveWidget(
-              character_name: widget.characterData.characterBase.character_name,
+              character_name: widget.characterData.characterBasic.character_name,
             )
           ],
         ),

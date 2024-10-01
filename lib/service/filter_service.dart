@@ -1,5 +1,5 @@
-import 'package:maple_info_app/model/character_total_model.dart';
-import 'package:maple_info_app/service/api_service.dart';
+
+import '../domain/model/total/character_total_model.dart';
 
 class FilterService {
 
@@ -22,8 +22,8 @@ class FilterService {
       }
       case '레벨': {
         sortedList.sort((b, a) =>
-            a.characterBase.character_level.compareTo(
-                b.characterBase.character_level
+            a.characterBasic.character_level.compareTo(
+                b.characterBasic.character_level
             )
         );
         break;
@@ -31,10 +31,10 @@ class FilterService {
       case '캐릭터 생성일': {
         sortedList.sort((b, a) {
           DateTime dateA = DateTime.parse(
-              a.characterBase.character_date_create);
+              a.characterBasic.character_date_create);
 
           DateTime dateB = DateTime.parse(
-              b.characterBase.character_date_create);
+              b.characterBasic.character_date_create);
 
           return dateB.compareTo(dateA);
         });
