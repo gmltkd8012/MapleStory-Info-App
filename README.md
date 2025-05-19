@@ -1,6 +1,6 @@
-# maple_info_app
+# Flutter - MapleStory
 
-메이플 환산 주스텟 연동
+MapleStory Open API 데이터를 이용한 개발 공부용
 
 ## Getting Started
 
